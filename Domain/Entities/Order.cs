@@ -19,7 +19,6 @@ namespace Domain.Entities
         public string StreetWithNumber { get; set; } = string.Empty;
         public string PostalCode { get; set; } = string.Empty;
 
-        public Guid? PaymentId { get; set; }
         public Payment? Payment { get; set; }
         public Guid? AppUserId { get; set; }
         public AppUser? AppUser { get; set; }

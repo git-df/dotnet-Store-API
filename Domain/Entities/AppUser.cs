@@ -11,6 +11,7 @@ namespace Domain.Entities
     {
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
+        public bool IsBlocked { get; set; } = false;
 
         public List<Order> Orders { get; set; } = new List<Order>();
         public List<Payment> Payments { get; set; } = new List<Payment>();
