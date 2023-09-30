@@ -1,4 +1,8 @@
-﻿using Application.Responses;
+﻿using Application.Functions.Offer.Commands.AddOffer;
+using Application.Functions.Offer.Queries.GetAllOffers;
+using Application.Functions.Offer.Queries.GetOffers;
+using Application.Responses;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,18 +12,25 @@ namespace Api.Controllers
     [ApiController]
     public class OfferController : ControllerBase
     {
+        private readonly IMediator _mediator;
+
+        public OfferController(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
+
         [HttpGet]
         [Route("GetOffers")]
-        public async Task<BaseResponse> GetOffers()
+        public async Task<BaseResponse<List<GetOffersDto>?>> GetOffers()
         {
-            return new BaseResponse(true);
+            return await _mediator.Send(new GetOffersQuery());
         }
 
         [HttpGet]
         [Route("GetAllOffers")]
-        public async Task<BaseResponse> GetAllOffers()
+        public async Task<BaseResponse<List<GetAllOffersDto>?>> GetAllOffers()
         {
-            return new BaseResponse(true);
+            return await _mediator.Send(new GetAllOffersQuery());
         }
 
         [HttpGet]
@@ -31,9 +42,9 @@ namespace Api.Controllers
 
         [HttpPost]
         [Route("AddOffer")]
-        public async Task<BaseResponse> AddOffer()
+        public async Task<BaseResponse<int?>> AddOffer([FromBody] AddOfferCommand request)
         {
-            return new BaseResponse(true);
+            return await _mediator.Send(request);
         }
 
         [HttpPost]

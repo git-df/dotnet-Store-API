@@ -1,5 +1,6 @@
 ﻿using Application.Contracts.Persistence;
 using Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using Persistence.Data;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,13 @@ namespace Persistence.Repositories
     {
         public OfferRepository(StoreDbContext storeDbContext) : base(storeDbContext)
         {
+        }
+
+        public async Task<List<Offer>> GetAllActive()
+        {
+            return await _storeDbContext.Offers
+                .Where(x => x.Active == true)
+                .ToListAsync();
         }
     }
 }

@@ -9,5 +9,6 @@ namespace Application.Contracts.Persistence
 {
     public interface IOfferRepository : IBaseRepository<Offer>
     {
+        Task<List<Offer>> GetAllActive();
     }
 }
