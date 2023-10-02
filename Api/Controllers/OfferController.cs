@@ -1,5 +1,10 @@
 ﻿using Application.Functions.Offer.Commands.AddOffer;
+using Application.Functions.Offer.Commands.ChangeOfferActive;
+using Application.Functions.Offer.Commands.ChangeOfferImage;
+using Application.Functions.Offer.Commands.DeleteOffer;
+using Application.Functions.Offer.Commands.UpdateOffer;
 using Application.Functions.Offer.Queries.GetAllOffers;
+using Application.Functions.Offer.Queries.GetOfferDetails;
 using Application.Functions.Offer.Queries.GetOffers;
 using Application.Responses;
 using MediatR;
@@ -34,10 +39,10 @@ namespace Api.Controllers
         }
 
         [HttpGet]
-        [Route("GetOfferDetails")]
-        public async Task<BaseResponse> GetOfferDetails()
+        [Route("GetOfferDetails/{id}")]
+        public async Task<BaseResponse<GetOfferDetailsDto?>> GetOfferDetails(int id)
         {
-            return new BaseResponse(true);
+            return await _mediator.Send(new GetOfferDetailsQuery() { Id = id});
         }
 
         [HttpPost]
@@ -49,30 +54,30 @@ namespace Api.Controllers
 
         [HttpPost]
         [Route("UpdateOffer")]
-        public async Task<BaseResponse> UpdateOffer()
+        public async Task<BaseResponse> UpdateOffer([FromBody] UpdateOfferCommand request)
         {
-            return new BaseResponse(true);
+            return await _mediator.Send(request);
         }
 
         [HttpPut]
         [Route("ChangeOfferActive")]
-        public async Task<BaseResponse> ChangeOfferActive()
+        public async Task<BaseResponse> ChangeOfferActive([FromBody] ChangeOfferActiveCommand request)
         {
-            return new BaseResponse(true);
+            return await _mediator.Send(request);
         }
 
         [HttpPut]
         [Route("ChangeOfferImage")]
-        public async Task<BaseResponse> ChangeOfferImage()
+        public async Task<BaseResponse> ChangeOfferImage([FromBody] ChangeOfferImageCommand request)
         {
-            return new BaseResponse(true);
+            return await _mediator.Send(request);
         }
 
         [HttpDelete]
-        [Route("DeleteOffer")]
-        public async Task<BaseResponse> DeleteOffer()
+        [Route("DeleteOffer/{id}")]
+        public async Task<BaseResponse> DeleteOffer(int id)
         {
-            return new BaseResponse(true);
+            return await _mediator.Send(new DeleteOfferCommand() { Id = id });
         }
     }
 }

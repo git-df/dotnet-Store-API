@@ -1,5 +1,7 @@
 ﻿using Application.Functions.Offer.Commands.AddOffer;
+using Application.Functions.Offer.Commands.UpdateOffer;
 using Application.Functions.Offer.Queries.GetAllOffers;
+using Application.Functions.Offer.Queries.GetOfferDetails;
 using Application.Functions.Offer.Queries.GetOffers;
 using Application.Responses;
 using AutoMapper;
@@ -17,9 +19,13 @@ namespace Application.Mapper
     {
         public MappingProfile() 
         {
+            //Offer comands
             CreateMap<AddOfferCommand, Offer>();
+
+            //Offer queries
             CreateMap<Offer, GetAllOffersDto>();
             CreateMap<Offer, GetOffersDto>();
+            CreateMap<Offer, GetOfferDetailsDto>();
         }
     }
 }
