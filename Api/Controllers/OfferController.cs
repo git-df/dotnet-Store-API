@@ -8,6 +8,7 @@ using Application.Functions.Offer.Queries.GetOfferDetails;
 using Application.Functions.Offer.Queries.GetOffers;
 using Application.Responses;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
