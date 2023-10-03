@@ -1,4 +1,7 @@
-﻿using Application.Responses;
+﻿using Application.Functions.Auth.Commands.SignIn;
+using Application.Functions.Auth.Commands.SignUp;
+using Application.Responses;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,18 +11,25 @@ namespace Api.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
+        private readonly IMediator _mediator;
+
+        public AuthController(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
+
         [HttpPost]
         [Route("SignIn")]
-        public async Task<BaseResponse> SignIn()
+        public async Task<BaseResponse<string?>> SignIn([FromBody] SignInCommand request)
         {
-            return new BaseResponse(true);
+            return await _mediator.Send(request);
         }
 
         [HttpPost]
         [Route("SignUp")]
-        public async Task<BaseResponse> SignUp()
+        public async Task<BaseResponse> SignUp([FromBody] SignUpCommand request)
         {
-            return new BaseResponse(true);
+            return await _mediator.Send(request);
         }
     }
 }

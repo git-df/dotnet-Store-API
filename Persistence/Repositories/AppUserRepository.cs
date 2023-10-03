@@ -1,5 +1,6 @@
 ﻿using Application.Contracts.Persistence;
 using Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using Persistence.Data;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,11 @@ namespace Persistence.Repositories
     {
         public AppUserRepository(StoreDbContext storeDbContext) : base(storeDbContext)
         {
+        }
+
+        public async Task<AppUser?> GetByEmail(string email)
+        {
+            return await _storeDbContext.AppUsers.FirstOrDefaultAsync(x => x.Email == email);
         }
     }
 }

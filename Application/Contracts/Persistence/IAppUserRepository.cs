@@ -9,5 +9,6 @@ namespace Application.Contracts.Persistence
 {
     public interface IAppUserRepository : IBaseRepository<AppUser>
     {
+        Task<AppUser?> GetByEmail(string email);
     }
 }
