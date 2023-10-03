@@ -63,7 +63,7 @@ namespace Persistence.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Price = table.Column<decimal>(type: "decimal(19,4)", nullable: false),
                     Active = table.Column<bool>(type: "bit", nullable: false),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -279,7 +279,7 @@ namespace Persistence.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "IsBlocked", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { new Guid("19e3d4bf-37f2-4ed6-8ae3-8c6eae9920be"), 0, "949045ca-af7d-4359-88f8-b9f8376c3a4a", "admin@admin.admin", false, "Admin", false, "Admin", false, null, "ADMIN@ADMIN.ADMIN", "ADMIN", null, null, false, null, false, "admin" });
+                values: new object[] { new Guid("19e3d4bf-37f2-4ed6-8ae3-8c6eae9920be"), 0, "d05dacf1-edfe-45a3-8b3e-a4c833637d13", "sa", false, "sa", false, "sa", false, null, "SA", "SA", "AQAAAAIAAYagAAAAEDAt2nHFBiVtJxd8+nHlNJBwGQurv6uDVhxY7Rh63VM9kpDfV4/qf5e8z8LWgr+EqQ==", null, false, null, false, "sa" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",

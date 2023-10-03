@@ -93,13 +93,15 @@ namespace Persistence.Data
             var admin = new AppUser()
             {
                 Id = new Guid("19e3d4bf-37f2-4ed6-8ae3-8c6eae9920be"),
-                UserName = "admin",
-                Email = "admin@admin.admin",
-                NormalizedUserName = "admin".ToUpper(),
-                NormalizedEmail = "admin@admin.admin".ToUpper(),
-                FirstName = "Admin",
-                LastName = "Admin"
+                UserName = "sa",
+                Email = "sa",
+                NormalizedUserName = "sa".ToUpper(),
+                NormalizedEmail = "sa".ToUpper(),
+                FirstName = "sa",
+                LastName = "sa"
             };
+
+            admin.PasswordHash = new PasswordHasher<AppUser>().HashPassword(admin, "Haslo123!");
 
             var adminRoles = new List<IdentityUserRole<Guid>>()
             {

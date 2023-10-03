@@ -103,18 +103,19 @@ namespace Persistence.Migrations
                         {
                             Id = new Guid("19e3d4bf-37f2-4ed6-8ae3-8c6eae9920be"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b6c2c717-279b-45fa-afd8-73b4115c6c7f",
-                            Email = "admin@admin.admin",
+                            ConcurrencyStamp = "d05dacf1-edfe-45a3-8b3e-a4c833637d13",
+                            Email = "sa",
                             EmailConfirmed = false,
-                            FirstName = "Admin",
+                            FirstName = "sa",
                             IsBlocked = false,
-                            LastName = "Admin",
+                            LastName = "sa",
                             LockoutEnabled = false,
-                            NormalizedEmail = "ADMIN@ADMIN.ADMIN",
-                            NormalizedUserName = "ADMIN",
+                            NormalizedEmail = "SA",
+                            NormalizedUserName = "SA",
+                            PasswordHash = "AQAAAAIAAYagAAAAEDAt2nHFBiVtJxd8+nHlNJBwGQurv6uDVhxY7Rh63VM9kpDfV4/qf5e8z8LWgr+EqQ==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
-                            UserName = "admin"
+                            UserName = "sa"
                         });
                 });
 

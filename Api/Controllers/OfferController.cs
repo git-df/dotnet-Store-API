@@ -33,6 +33,7 @@ namespace Api.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Employee, Admin")]
         [Route("GetAllOffers")]
         public async Task<BaseResponse<List<GetAllOffersDto>?>> GetAllOffers()
         {
@@ -40,6 +41,7 @@ namespace Api.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Employee, Admin")]
         [Route("GetOfferDetails/{id}")]
         public async Task<BaseResponse<GetOfferDetailsDto?>> GetOfferDetails(int id)
         {
@@ -47,6 +49,7 @@ namespace Api.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Employee, Admin")]
         [Route("AddOffer")]
         public async Task<BaseResponse<int?>> AddOffer([FromBody] AddOfferCommand request)
         {
@@ -54,6 +57,7 @@ namespace Api.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Employee, Admin")]
         [Route("UpdateOffer")]
         public async Task<BaseResponse> UpdateOffer([FromBody] UpdateOfferCommand request)
         {
@@ -61,6 +65,7 @@ namespace Api.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "Employee, Admin")]
         [Route("ChangeOfferActive")]
         public async Task<BaseResponse> ChangeOfferActive([FromBody] ChangeOfferActiveCommand request)
         {
@@ -68,6 +73,7 @@ namespace Api.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "Employee, Admin")]
         [Route("ChangeOfferImage")]
         public async Task<BaseResponse> ChangeOfferImage([FromBody] ChangeOfferImageCommand request)
         {
@@ -75,6 +81,7 @@ namespace Api.Controllers
         }
 
         [HttpDelete]
+        [Authorize(Roles = "Employee, Admin")]
         [Route("DeleteOffer/{id}")]
         public async Task<BaseResponse> DeleteOffer(int id)
         {
