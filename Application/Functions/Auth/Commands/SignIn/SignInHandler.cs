@@ -47,6 +47,7 @@ namespace Application.Functions.Auth.Commands.SignIn
                     new Claim(ClaimTypes.Name, user?.UserName ?? ""),
                     new Claim("FirstName", user?.FirstName ?? ""),
                     new Claim("LastName", user?.LastName ?? ""),
+                    new Claim(ClaimTypes.NameIdentifier, user?.Id.ToString() ?? ""),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
                 };
 

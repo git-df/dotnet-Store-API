@@ -1,5 +1,6 @@
 ﻿using Application.Contracts.Persistence;
 using Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using Persistence.Data;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,20 @@ namespace Persistence.Repositories
     {
         public PaymentRepository(StoreDbContext storeDbContext) : base(storeDbContext)
         {
+        }
+
+        new public async Task<List<Payment>> GetAll()
+        {
+            return await _storeDbContext.Payments
+                .Include(x => x.AppUser)
+                .ToListAsync();
+        }
+
+        public async Task<List<Payment>> GetPaymentsByUserId(Guid userId)
+        {
+            return await _storeDbContext.Payments
+                .Where(x => x.AppUserId == userId)
+                .ToListAsync();
         }
     }
 }

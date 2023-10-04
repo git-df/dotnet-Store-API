@@ -9,5 +9,6 @@ namespace Application.Contracts.Persistence
 {
     public interface IPaymentRepository : IBaseRepository<Payment>
     {
+        Task<List<Payment>> GetPaymentsByUserId(Guid userId);
     }
 }

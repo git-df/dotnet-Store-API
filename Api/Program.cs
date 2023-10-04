@@ -131,9 +131,9 @@ app.MapControllers();
 app.UseHangfireDashboard();
 //app.MapHangfireDashboard("/hf");
 
-//RecurringJob.AddOrUpdate(
-//    "test",
-//    () => Console.WriteLine("test!"),
-//    Cron.Minutely);
+RecurringJob.AddOrUpdate(
+    "test",
+    () => Console.WriteLine("test!"),
+    Cron.Minutely);
 
 app.Run();
