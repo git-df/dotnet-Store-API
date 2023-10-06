@@ -10,6 +10,5 @@ namespace Application.Functions.Order.Queries.GetPaymentsHistory
 {
     public class GetPaymentsHistoryQuery : IRequest<BaseResponse<List<GetPaymentsHistoryDto>?>>
     {
-        public Guid UserId { get; set; }
     }
 }

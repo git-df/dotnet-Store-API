@@ -1,4 +1,5 @@
 ﻿using Application.Contracts.Persistence;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Persistence.Data;
 using System;
@@ -13,7 +14,8 @@ namespace Persistence.Repositories
     {
         protected readonly StoreDbContext _storeDbContext;
 
-        public BaseRepository(StoreDbContext storeDbContext)
+        public BaseRepository(
+            StoreDbContext storeDbContext)
         {
             _storeDbContext = storeDbContext;
         }

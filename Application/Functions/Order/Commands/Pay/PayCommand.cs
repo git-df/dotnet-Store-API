@@ -10,7 +10,6 @@ namespace Application.Functions.Order.Commands.Pay
 {
     public class PayCommand : IRequest<BaseResponse>
     {
-        public Guid UserId { get; set; }
         public Guid PaymentId { get; set; }
     }
 }

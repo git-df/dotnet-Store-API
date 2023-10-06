@@ -1,4 +1,6 @@
-﻿using Application.Functions.Order.Commands.Pay;
+﻿using Application.Functions.Order.Commands.AddOrder;
+using Application.Functions.Order.Commands.ChangeOrderStatus;
+using Application.Functions.Order.Commands.Pay;
 using Application.Functions.Order.Queries;
 using Application.Functions.Order.Queries.GetAllOrders;
 using Application.Functions.Order.Queries.GetAllPayments;
@@ -29,9 +31,7 @@ namespace Api.Controllers
         [Route("GetOrders")]
         public async Task<BaseResponse<List<GetOrdersDto>?>> GetOrders()
         {
-            string stringClaimId = (HttpContext.User.Identity as ClaimsIdentity)?.Claims?.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value ?? "0";
-
-            return await _mediator.Send(new GetOrdersQuery() { UserId = new Guid(stringClaimId) });
+            return await _mediator.Send(new GetOrdersQuery());
         }
 
         [HttpGet]
@@ -53,17 +53,17 @@ namespace Api.Controllers
         [HttpPost]
         [Authorize]
         [Route("AddOrder")]
-        public async Task<BaseResponse> AddOffer()
+        public async Task<BaseResponse<int?>> AddOrder([FromBody] AddOrderCommand request)
         {
-            return new BaseResponse(true);
+            return await _mediator.Send(request);
         }
 
         [HttpPut]
         [Authorize(Roles = "Employee, Admin")]
         [Route("ChangeOrderStatus")]
-        public async Task<BaseResponse> ChangeOrderStatus()
+        public async Task<BaseResponse> ChangeOrderStatus([FromBody] ChangeOrderStatusCommand request)
         {
-            return new BaseResponse(true);
+            return await _mediator.Send(request);
         }
 
         [HttpGet]
@@ -71,9 +71,7 @@ namespace Api.Controllers
         [Route("GetPaymentsHistory")]
         public async Task<BaseResponse<List<GetPaymentsHistoryDto>?>> GetPaymentsHistory()
         {
-            string stringClaimId = (HttpContext.User.Identity as ClaimsIdentity)?.Claims?.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value ?? "0";
-
-            return await _mediator.Send(new GetPaymentsHistoryQuery() { UserId = new Guid(stringClaimId) });
+            return await _mediator.Send(new GetPaymentsHistoryQuery());
         }
 
         [HttpGet]
@@ -86,12 +84,10 @@ namespace Api.Controllers
 
         [HttpPut]
         [Authorize]
-        [Route("Pay/{paymentId}")]
-        public async Task<BaseResponse> Pay(Guid paymentId)
+        [Route("Pay")]
+        public async Task<BaseResponse> Pay([FromBody]PayCommand request)
         {
-            string stringClaimId = (HttpContext.User.Identity as ClaimsIdentity)?.Claims?.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value ?? "0";
-
-            return await _mediator.Send(new PayCommand() { UserId = new Guid(stringClaimId), PaymentId = paymentId });
+            return await _mediator.Send(request);
         }
     }
 }

@@ -8,19 +8,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Application.Services.Interfaces;
 
 namespace Persistence.Data
 {
     public class StoreDbContext : IdentityDbContext<AppUser, IdentityRole<Guid>, Guid>
     {
+        private readonly IUserService _userService;
+
         public DbSet<AppUser> AppUsers { get; set; }
         public DbSet<Offer> Offers { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Payment> Payments { get; set; }
 
-        public StoreDbContext(DbContextOptions<StoreDbContext> options) : base(options)
+        public StoreDbContext(DbContextOptions<StoreDbContext> options, IUserService userService) : base(options)
         {
+            _userService = userService;
         }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
@@ -31,11 +36,11 @@ namespace Persistence.Data
                 {
                     case EntityState.Added:
                         entry.Entity.Created = DateTime.Now;
-                        entry.Entity.CreatedBy = "todo";
+                        entry.Entity.CreatedBy = _userService.GetUserName() ?? "";
                         break;
                     case EntityState.Modified:
                         entry.Entity.Updated = DateTime.Now;
-                        entry.Entity.UpdatedBy = "todo";
+                        entry.Entity.UpdatedBy = _userService.GetUserName() ?? "";
                         break;
                 }
             }

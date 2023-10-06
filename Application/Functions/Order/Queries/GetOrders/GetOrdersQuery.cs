@@ -10,6 +10,5 @@ namespace Application.Functions.Order.Queries.GetOrders
 {
     public class GetOrdersQuery : IRequest<BaseResponse<List<GetOrdersDto>?>>
     {
-        public Guid UserId { get; set; }
     }
 }

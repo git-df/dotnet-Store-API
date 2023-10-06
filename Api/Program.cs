@@ -8,14 +8,15 @@ using Persistence.Data;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
+using Microsoft.Extensions.Configuration;
+using System.Net;
+using HangfireBasicAuthenticationFilter;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddSwaggerGen(x =>
 {
@@ -87,7 +88,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidIssuer = builder.Configuration["Jwt:Issuer"],
             ValidAudience = builder.Configuration["Jwt:Audience"],
             IssuerSigningKey = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+                Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"] ?? ""))
         };
     });
 
@@ -98,20 +99,6 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-
-    //Process.Start(new ProcessStartInfo
-    //{
-    //    FileName = "cmd",
-    //    UseShellExecute = true,
-    //    Arguments = "/c start https://localhost:5000/swagger/index.html"
-    //});
-
-    //Process.Start(new ProcessStartInfo
-    //{
-    //    FileName = "cmd",
-    //    UseShellExecute = true,
-    //    Arguments = "/c start https://localhost:5000/hangfire"
-    //});
 }
 
 app.UseHttpsRedirection();
@@ -128,12 +115,18 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.UseHangfireDashboard();
-//app.MapHangfireDashboard("/hf");
-
-RecurringJob.AddOrUpdate(
-    "test",
-    () => Console.WriteLine("test!"),
-    Cron.Minutely);
+app.UseHangfireDashboard("/hangfire", new DashboardOptions()
+{
+    AppPath = "/swagger",
+    DarkModeEnabled = false,
+    DashboardTitle = "Store",
+    Authorization = new[]
+    {
+        new HangfireCustomBasicAuthenticationFilter{
+            User = builder.Configuration.GetSection("HangfireSettings:UserName").Value,
+            Pass = builder.Configuration.GetSection("HangfireSettings:Password").Value
+        }
+    }
+});
 
 app.Run();

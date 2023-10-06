@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
+using Application.Services.Interfaces;
+using Application.Services;
 
 namespace Application
 {
@@ -17,6 +19,7 @@ namespace Application
         {
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddMediatR(Assembly.GetExecutingAssembly());
+            services.AddTransient<IUserService, UserService>();
 
             return services;
         }

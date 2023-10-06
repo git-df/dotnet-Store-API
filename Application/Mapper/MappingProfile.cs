@@ -4,6 +4,7 @@ using Application.Functions.Offer.Commands.UpdateOffer;
 using Application.Functions.Offer.Queries.GetAllOffers;
 using Application.Functions.Offer.Queries.GetOfferDetails;
 using Application.Functions.Offer.Queries.GetOffers;
+using Application.Functions.Order.Commands.AddOrder;
 using Application.Functions.Order.Queries.GetAllOrders;
 using Application.Functions.Order.Queries.GetAllPayments;
 using Application.Functions.Order.Queries.GetOrders;
@@ -18,12 +19,15 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
+#pragma warning disable CS8602
+
 namespace Application.Mapper
 {
     public class MappingProfile : Profile
     {
         public MappingProfile() 
         {
+            
             //Auth commands
             CreateMap<SignUpCommand, AppUser>()
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email.ToLower()))
@@ -38,6 +42,15 @@ namespace Application.Mapper
             CreateMap<Offer, GetAllOffersDto>();
             CreateMap<Offer, GetOffersDto>();
             CreateMap<Offer, GetOfferDetailsDto>();
+
+            //Order commands
+            CreateMap<AddOrderCommand, Order>()
+                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email.ToLower()))
+                .ForMember(dest => dest.Country, opt => opt.MapFrom(src => src.Country.ToLower()))
+                .ForMember(dest => dest.City, opt => opt.MapFrom(src => src.City.ToLower()))
+                .ForMember(dest => dest.StreetWithNumber, opt => opt.MapFrom(src => src.StreetWithNumber.ToLower()))
+                .ForMember(dest => dest.PostalCode, opt => opt.MapFrom(src => src.PostalCode.ToLower()))
+                .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.PhoneNumber.ToLower()));
 
             //Order queries
             CreateMap<Order, GetOrdersDto>()
@@ -57,3 +70,5 @@ namespace Application.Mapper
         }
     }
 }
+
+#pragma warning restore CS8602

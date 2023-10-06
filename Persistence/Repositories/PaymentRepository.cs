@@ -1,5 +1,6 @@
 ﻿using Application.Contracts.Persistence;
 using Domain.Entities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Persistence.Data;
 using System;
@@ -21,6 +22,12 @@ namespace Persistence.Repositories
             return await _storeDbContext.Payments
                 .Include(x => x.AppUser)
                 .ToListAsync();
+        }
+
+        public async Task<Payment?> GetPaymentByOrderId(int orderId)
+        {
+            return await _storeDbContext.Payments
+                .FirstOrDefaultAsync(x => x.OrderId == orderId);
         }
 
         public async Task<List<Payment>> GetPaymentsByUserId(Guid userId)
