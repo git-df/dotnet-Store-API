@@ -35,7 +35,7 @@ namespace Application.Services
 
         public string? GetUserName()
         {
-            return _httpContextAccessor.HttpContext.User?.Identity?.Name;
+            return _httpContextAccessor?.HttpContext?.User?.Identity?.Name ?? null;
         }
 
         public bool IsAuthenticated()

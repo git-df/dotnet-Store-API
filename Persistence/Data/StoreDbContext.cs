@@ -36,11 +36,11 @@ namespace Persistence.Data
                 {
                     case EntityState.Added:
                         entry.Entity.Created = DateTime.Now;
-                        entry.Entity.CreatedBy = _userService.GetUserName() ?? "";
+                        entry.Entity.CreatedBy = _userService.GetUserName() ?? "No Authenticated";
                         break;
                     case EntityState.Modified:
                         entry.Entity.Updated = DateTime.Now;
-                        entry.Entity.UpdatedBy = _userService.GetUserName() ?? "";
+                        entry.Entity.UpdatedBy = _userService.GetUserName() ?? "No Authenticated";
                         break;
                 }
             }
