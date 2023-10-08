@@ -10,5 +10,6 @@ namespace Application.Contracts.Persistence
     public interface IOrderRepository : IBaseRepository<Order>
     {
         Task<List<Order>> GetOrdersByUserId(Guid userId);
+        Task<Order?> GetOrderByIdWithItems(int id);
     }
 }

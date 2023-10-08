@@ -31,5 +31,13 @@ namespace Persistence.Repositories
                 .Include(x => x.Payment)
                 .ToListAsync();
         }
+
+        public async Task<Order?> GetOrderByIdWithItems(int id)
+        {
+            return await _storeDbContext.Orders
+                .Include(x => x.Payment)
+                .Include(x => x.OrderItems)
+                .FirstOrDefaultAsync(x => x.Id == id);
+        }
     }
 }

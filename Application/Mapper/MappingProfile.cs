@@ -1,4 +1,5 @@
 ﻿using Application.Functions.Auth.Commands.SignUp;
+using Application.Functions.Auth.Queries.GetUserInfo;
 using Application.Functions.Offer.Commands.AddOffer;
 using Application.Functions.Offer.Commands.UpdateOffer;
 using Application.Functions.Offer.Queries.GetAllOffers;
@@ -7,6 +8,7 @@ using Application.Functions.Offer.Queries.GetOffers;
 using Application.Functions.Order.Commands.AddOrder;
 using Application.Functions.Order.Queries.GetAllOrders;
 using Application.Functions.Order.Queries.GetAllPayments;
+using Application.Functions.Order.Queries.GetOrderDetails;
 using Application.Functions.Order.Queries.GetOrders;
 using Application.Functions.Order.Queries.GetPaymentsHistory;
 using Application.Responses;
@@ -35,6 +37,9 @@ namespace Application.Mapper
                 .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.LastName.ToLower()))
                 .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Email.ToLower()));
 
+            //Auth queries
+            CreateMap<AppUser, GetUserInfoDto>();
+
             //Offer commands
             CreateMap<AddOfferCommand, Offer>();
 
@@ -45,7 +50,6 @@ namespace Application.Mapper
 
             //Order commands
             CreateMap<AddOrderCommand, Order>()
-                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email.ToLower()))
                 .ForMember(dest => dest.Country, opt => opt.MapFrom(src => src.Country.ToLower()))
                 .ForMember(dest => dest.City, opt => opt.MapFrom(src => src.City.ToLower()))
                 .ForMember(dest => dest.StreetWithNumber, opt => opt.MapFrom(src => src.StreetWithNumber.ToLower()))
@@ -67,6 +71,13 @@ namespace Application.Mapper
             CreateMap<Payment, GetAllPaymentsDto>()
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status.ToString()))
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.AppUser.Email));
+            CreateMap<Order, GetOrderDetailsDto>()
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status.ToString()))
+                .ForMember(dest => dest.PaymentStatus, opt => opt.MapFrom(src => src.Payment.Status.ToString()))
+                .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Payment.Price))
+                .ForMember(dest => dest.PaymantId, opt => opt.MapFrom(src => src.Payment.Id))
+                .ForMember(dest => dest.Items, opt => opt.MapFrom(src => src.OrderItems));
+            CreateMap<OrderItem, GetOrderDetailsItems>();
         }
     }
 }

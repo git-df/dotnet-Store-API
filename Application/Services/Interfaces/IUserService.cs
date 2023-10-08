@@ -13,5 +13,6 @@ namespace Application.Services.Interfaces
         public string? GetUserName();
         public ClaimsPrincipal GetUser();
         public bool IsAuthenticated();
+        public bool IsInRole(string role);
     }
 }

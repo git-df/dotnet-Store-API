@@ -12,7 +12,6 @@ namespace Application.Functions.Order.Commands.AddOrder
 {
     public class AddOrderCommand : IRequest<BaseResponse<int?>>
     {
-        public string? Email { get; set; }
         public string? PhoneNumber { get; set; }
         public string? Country { get; set; }
         public string? City { get; set; }

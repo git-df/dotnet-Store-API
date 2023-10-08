@@ -11,10 +11,6 @@ namespace Application.Functions.Order.Commands.AddOrder
     {
         public AddOrderValidator() 
         {
-            RuleFor(x => x.Email)
-                .NotEmpty()
-                .EmailAddress();
-
             RuleFor(x => x.City)
                 .NotEmpty();
 

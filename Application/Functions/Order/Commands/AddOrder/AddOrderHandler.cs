@@ -20,6 +20,7 @@ namespace Application.Functions.Order.Commands.AddOrder
         private readonly IOrderRepository _orderRepository;
         private readonly IOfferRepository _offerRepository;
         private readonly IPaymentRepository _paymentRepository;
+        private readonly IAppUserRepository _appUserRepository;
         private readonly IMapper _mapper;
         private readonly IUserService _userService;
 
@@ -27,12 +28,14 @@ namespace Application.Functions.Order.Commands.AddOrder
             IOrderRepository orderRepository,
             IOfferRepository offerRepository,
             IPaymentRepository paymentRepository,
+            IAppUserRepository appUserRepository,
             IMapper mapper,
             IUserService userService)
         {
             _orderRepository = orderRepository;
             _offerRepository = offerRepository;
             _paymentRepository = paymentRepository;
+            _appUserRepository = appUserRepository;
             _mapper = mapper;
             _userService = userService;
         }
@@ -43,6 +46,11 @@ namespace Application.Functions.Order.Commands.AddOrder
                 return new BaseResponse<int?>(false, "No Authenticated");
 
             var userId = _userService.GetUserId();
+
+            var user = await _appUserRepository.GetById(userId ?? Guid.Empty);
+
+            if (user == null)
+                return new BaseResponse<int?>(false, "User not found");
 
             var validator = new AddOrderValidator();
             var validationResult = await validator.ValidateAsync(request);
@@ -55,7 +63,8 @@ namespace Application.Functions.Order.Commands.AddOrder
 
             var order = _mapper.Map<Domain.Entities.Order>(request);
             order.Status = Domain.Enums.OrderStatus.New;
-            order.AppUserId = userId;
+            order.AppUserId = user.Id;
+            order.Email = user.Email ?? "";
             decimal price = 0;
             Domain.Entities.Offer? offer;
 
@@ -92,6 +101,9 @@ namespace Application.Functions.Order.Commands.AddOrder
 
             if (payment == null)
                 return new BaseResponse<int?>(false, "Something went wrong :(");
+
+            user.PhoneNumber = order.PhoneNumber;
+            await _appUserRepository.Update(user);
 
             return new BaseResponse<int?>(order.Id, true, "Ordder created");
         }

@@ -4,6 +4,7 @@ using Application.Functions.Order.Commands.Pay;
 using Application.Functions.Order.Queries;
 using Application.Functions.Order.Queries.GetAllOrders;
 using Application.Functions.Order.Queries.GetAllPayments;
+using Application.Functions.Order.Queries.GetOrderDetails;
 using Application.Functions.Order.Queries.GetOrders;
 using Application.Functions.Order.Queries.GetPaymentsHistory;
 using Application.Responses;
@@ -44,10 +45,10 @@ namespace Api.Controllers
 
         [HttpGet]
         [Authorize]
-        [Route("GetOrderDetails")]
-        public async Task<BaseResponse> GetOrderDetails()
+        [Route("GetOrderDetails/{id}")]
+        public async Task<BaseResponse<GetOrderDetailsDto?>> GetOrderDetails(int id)
         {
-            return new BaseResponse(true);
+            return await _mediator.Send(new GetOrderDetailsQuery() { OrderId = id });
         }
 
         [HttpPost]
