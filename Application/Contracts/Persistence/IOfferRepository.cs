@@ -1,4 +1,7 @@
-﻿using Domain.Entities;
+﻿using Application.Functions.Offer.Queries.GetOffers;
+using DF.Query.Pagination.Models.Requests;
+using DF.Query.Pagination.Models.Responses;
+using Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +12,7 @@ namespace Application.Contracts.Persistence
 {
     public interface IOfferRepository : IBaseRepository<Offer>
     {
-        Task<List<Offer>> GetAllActive();
+        Task<PaginatedList<GetOffersDto>> GetAllActive(Pagination pagination,
+            CancellationToken cancellationToken);
     }
 }

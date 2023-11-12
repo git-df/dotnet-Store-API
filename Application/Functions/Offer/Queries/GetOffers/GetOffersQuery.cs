@@ -1,4 +1,6 @@
 ﻿using Application.Responses;
+using DF.Query.Pagination.Models.Requests;
+using DF.Query.Pagination.Models.Responses;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -8,7 +10,8 @@ using System.Threading.Tasks;
 
 namespace Application.Functions.Offer.Queries.GetOffers
 {
-    public class GetOffersQuery : IRequest<BaseResponse<List<GetOffersDto>?>>
+    public class GetOffersQuery : IRequest<BaseResponse<PaginatedList<GetOffersDto>?>>
     {
+        public Pagination Pagination { get; set; }
     }
 }

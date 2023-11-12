@@ -2,6 +2,7 @@
 using Application.Functions.Offer.Queries.GetAllOffers;
 using Application.Responses;
 using AutoMapper;
+using DF.Query.Pagination.Models.Responses;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Application.Functions.Offer.Queries.GetOffers
 {
-    public class GetOffersHandler : IRequestHandler<GetOffersQuery, BaseResponse<List<GetOffersDto>?>>
+    public class GetOffersHandler : IRequestHandler<GetOffersQuery, BaseResponse<PaginatedList<GetOffersDto>?>>
     {
         private readonly IMapper _mapper;
         private readonly IOfferRepository _offerRepository;
@@ -24,17 +25,18 @@ namespace Application.Functions.Offer.Queries.GetOffers
             _offerRepository = offerRepository;
         }
 
-        public async Task<BaseResponse<List<GetOffersDto>?>> Handle(GetOffersQuery request, CancellationToken cancellationToken)
+        public async Task<BaseResponse<PaginatedList<GetOffersDto>?>> Handle(GetOffersQuery request, 
+            CancellationToken cancellationToken)
         {
-            var offers = await _offerRepository.GetAllActive();
+            var offers = await _offerRepository.GetAllActive(request.Pagination, cancellationToken);
 
-            if (offers == null || !offers.Any())
+            if (offers == null || !offers.Items.Any())
             {
-                return new BaseResponse<List<GetOffersDto>?>(false, "No offers");
+                return new BaseResponse<PaginatedList<GetOffersDto>?>(false, "No offers");
             }
 
-            return new BaseResponse<List<GetOffersDto>?>(
-                _mapper.Map<List<GetOffersDto>>(offers), true);
+            return new BaseResponse<PaginatedList<GetOffersDto>?>(
+                offers, true);
         }
     }
 }

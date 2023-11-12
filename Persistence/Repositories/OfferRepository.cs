@@ -1,4 +1,8 @@
 ﻿using Application.Contracts.Persistence;
+using Application.Functions.Offer.Queries.GetOffers;
+using DF.Query.Pagination;
+using DF.Query.Pagination.Models.Requests;
+using DF.Query.Pagination.Models.Responses;
 using Domain.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -17,11 +21,21 @@ namespace Persistence.Repositories
         {
         }
 
-        public async Task<List<Offer>> GetAllActive()
+        public async Task<PaginatedList<GetOffersDto>> GetAllActive(Pagination pagination,
+            CancellationToken cancellationToken = default)
         {
-            return await _storeDbContext.Offers
-                .Where(x => x.Active == true)
-                .ToListAsync();
+            var query =
+                from offers in _storeDbContext.Offers
+                where offers.Active == true
+                select new GetOffersDto()
+                {
+                    Id = offers.Id,
+                    Name = offers.Name,
+                    ImageUrl = offers.ImageUrl,
+                    Price = offers.Price
+                };
+
+            return await query.GetPaginatedListAsync(pagination, cancellationToken);
         }
     }
 }

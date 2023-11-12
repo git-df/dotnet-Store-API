@@ -7,6 +7,7 @@ using Application.Functions.Offer.Queries.GetAllOffers;
 using Application.Functions.Offer.Queries.GetOfferDetails;
 using Application.Functions.Offer.Queries.GetOffers;
 using Application.Responses;
+using DF.Query.Pagination.Models.Responses;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -25,11 +26,12 @@ namespace Api.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("GetOffers")]
-        public async Task<BaseResponse<List<GetOffersDto>?>> GetOffers()
+        public async Task<BaseResponse<PaginatedList<GetOffersDto>?>> GetOffers([FromBody] GetOffersQuery request,
+            CancellationToken cancellationToken)
         {
-            return await _mediator.Send(new GetOffersQuery());
+            return await _mediator.Send(request, cancellationToken);
         }
 
         [HttpGet]
