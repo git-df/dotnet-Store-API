@@ -28,7 +28,7 @@ namespace Application.Functions.Offer.Queries.GetOffers
         public async Task<BaseResponse<PaginatedList<GetOffersDto>?>> Handle(GetOffersQuery request, 
             CancellationToken cancellationToken)
         {
-            var offers = await _offerRepository.GetAllActive(request.Pagination, cancellationToken);
+            var offers = await _offerRepository.GetAllActive(request.Pagination, request.Sorting, cancellationToken);
 
             if (offers == null || !offers.Items.Any())
             {
